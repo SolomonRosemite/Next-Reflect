@@ -7,7 +7,7 @@ type Props = {
   name: string;
 };
 
-export default ({ name }: Props) => {
+const Index = ({ name }: Props) => {
   return (
     <Layout title="Home | Next.js + TypeScript">
       <h1>Hello {name} 👋</h1>
@@ -23,3 +23,5 @@ export default ({ name }: Props) => {
 export async function getServerSideProps(): Promise<{ props: Props }> {
   return { props: { name: "next.js" } };
 }
+
+export default Index;
