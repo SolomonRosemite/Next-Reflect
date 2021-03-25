@@ -24,7 +24,10 @@ const Layout = ({ children, title }: Props) => (
         property="og:description"
         content="A Quick and Easy Url Shortener build with next.js"
       />
-      <meta property="og:image" content="../public/static/images/preview.jpg" />
+      <meta
+        property="og:image"
+        content="https://reflect.vercel.app/static/images/preview.jpg"
+      />
     </Head>
     <header>
       <nav>
