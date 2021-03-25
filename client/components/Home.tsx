@@ -1,34 +1,39 @@
-import React from "react";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import styles from "../styles/Home.module.scss";
-
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      "& > *": {
-        margin: theme.spacing(1),
-      },
-    },
-  })
-);
+import React from "react";
+import { TextField } from "@material-ui/core";
 
 type Props = {};
 
 const Home = ({}: Props) => {
-  const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <section className={styles.top}>
-        <h1 className={styles.title}>Reflect</h1>
-        <p>Easy create a Url Shortener with Reflect</p>
+    <main className={styles.main}>
+      <section className={styles.container}>
+        <h1 className={styles.title}>
+          Welcome to <span style={{ color: "#0070f3" }}>Reflect!</span>
+        </h1>
+        <p className={styles.note}>Easy create a Url Shortener with Reflect</p>
+        <div
+          style={{
+            display: "inline",
+            textAlign: "center",
+            paddingBottom: "30px",
+          }}
+        >
+          <TextField id="standard-basic" label="Slogan" />
+          <ArrowForwardIcon
+            style={{ margin: "0 100px 0 80px" }}
+            fontSize="large"
+          />
+          <TextField id="standard-basic" label="Result" />
+        </div>
+        <Button variant="outlined" color="primary">
+          Create Shortened Url
+        </Button>
       </section>
-      <section>
-        <input type="text" />
-        <Button variant="outlined">Create Shortened Url</Button>
-      </section>
-    </div>
+    </main>
   );
 };
 
