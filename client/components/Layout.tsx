@@ -14,8 +14,8 @@ const Layout = ({ children, title }: Props) => (
       <meta charSet="utf-8" />
       <meta property="og:title" content={title} />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      <meta property="og:url" content="next-js-url-shortener.vercel.app" />
-      <meta property="og:site_name" content="Url Shortener" />
+      <meta property="og:url" content="https://reflect.vercel.app/" />
+      <meta property="og:site_name" content="Reflect" />
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="og:locale" content="en_US" />
       <meta property="og:type" content="website" />
@@ -27,6 +27,10 @@ const Layout = ({ children, title }: Props) => (
       <meta
         property="og:image"
         content="https://reflect.vercel.app/static/images/preview.jpg"
+      />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
       />
     </Head>
     <header>

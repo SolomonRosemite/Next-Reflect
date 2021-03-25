@@ -1,0 +1,13 @@
+@use '../public/static/scss/fonts.scss' as fonts;
+@use '../public/static/scss/colors.scss' as colors;
+
+.title {
+  font-family: fonts.$font;
+  color: white;
+
+  font-size: 20px;
+}
+
+.top {
+  background-color: colors.$background-color;
+}
