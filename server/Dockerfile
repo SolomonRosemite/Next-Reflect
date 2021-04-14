@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY package.json tsconfig.json .env ./
 
 # Install app dependencies
-RUN yarn install
+RUN npm install
 
 # Bundle app source
 COPY . .
@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 80
 
 # Start Node server
-CMD [ "yarn", "start" ]
+CMD [ "npm", "start" ]
