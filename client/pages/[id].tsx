@@ -1,31 +1,18 @@
 import Layout, { Props, SSRProps } from "../components/Layout";
-import React, { ReactNode } from "react";
-import { Router, useRouter } from "next/router";
-import Home from "../components/Home";
-import fetch from "node-fetch";
+import React, { useEffect } from "react";
 import { GetServerSideProps } from "next";
-
-// type Props = {
-//   children?: ReactNode;
-//   name: string;
-// };
+import fetch from "node-fetch";
 
 const Index = ({ title, props }: Props) => {
+  useEffect(() => {
+    window.location.assign(props?.url ?? "https://reflect.vercel.app/");
+  });
   return (
     <Layout title={title} props={props}>
-      <h1>Test</h1>
+      <></>
     </Layout>
   );
 };
-
-// export async function getServerSideProps(context): Promise<{ props: Props }> {
-// const { pid } = router.query;
-// const router = useRouter();
-//   console.log(pid);
-
-//   // const result = await fetch(pid);
-//   return { props: { title: "Reflect" } };
-// }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await fetch(
@@ -39,22 +26,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const data = await res.json();
   console.log(data);
   return {
-    props: { title: data.title, props: { ...data, site_name: "Test!!" } },
+    props: { title: data.title, props: { ...data } },
   };
-  // try {
-  //   if (condition) {
-
-  //   }
-  //   const data = await res.json();
-  //   console.log(data);
-
-  //   // const data: Props = await res.json();
-  //   return { props: { ...data } };
-  // } catch {
-  //   console.log("hi");
-
-  //   return { props: { title: "Home | Reflect" } };
-  // }
 };
 
 export default Index;
