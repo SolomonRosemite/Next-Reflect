@@ -7,7 +7,6 @@ export async function scrapeMetaTags(url: string) {
   const res = await fetch(url);
 
   const html = await res.text();
-  // fs.writeFileSync("./youtube.html", html);
   const $ = cheerio.load(html);
 
   const getMetaTag = (name: string) =>
@@ -17,9 +16,11 @@ export async function scrapeMetaTags(url: string) {
 
   return {
     url,
-    title: $("title").first().text(),
+    title: getMetaTag("title") ?? $("title").first().text(),
     favicon: $('link[rel="shortcut icon"]').attr("href"),
     description: getMetaTag("description"),
     image: getMetaTag("image"),
+    hostname: getMetaTag("hostname"),
+    site_name: getMetaTag("site_name"),
   };
 }
