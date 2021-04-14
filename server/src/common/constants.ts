@@ -1,6 +1,6 @@
 const isInProduction = process.env.NODE_ENV === "production";
 const useSSL = process.env.useSSL?.trim() === "true" ? true : false;
-const port = process.env.PORT || 5000;
+const port = isInProduction ? 80 : 5000;
 const mongoUrl = process.env.URL;
 
 if (!mongoUrl || typeof mongoUrl !== "string") {
