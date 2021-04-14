@@ -27,7 +27,7 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
         with:
           source: "."
-          target: "/root/projects/Next-Reflect/server/Rosemite-Portfolio/"
+          target: "/root/projects/Next-Reflect/server/"
 
       - name: Executing remote command
         uses: appleboy/ssh-action@master
