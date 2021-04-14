@@ -2,31 +2,47 @@ import React, { ReactNode } from "react";
 import Link from "next/link";
 import Head from "next/head";
 
-type Props = {
+export type Props = {
   children?: ReactNode;
-  title: string;
+  title?: string;
+  props?: SSRProps;
 };
 
-const Layout = ({ children, title }: Props) => (
+export type SSRProps = {
+  url: string;
+  image: string;
+  site_name: string;
+  description: string;
+};
+
+const Layout = ({ children, title, props }: Props) => (
   <div>
     <Head>
-      <title>{title}</title>
+      <title>{title ?? "Home | Reflect"}</title>
       <meta charSet="utf-8" />
-      <meta property="og:title" content={title} />
+      <meta property="og:title" content={title ?? "Home | Reflect"} />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      <meta property="og:url" content="https://reflect.vercel.app/" />
-      <meta property="og:site_name" content="Reflect" />
+      <meta
+        property="og:url"
+        content={props?.url ?? "https://reflect.vercel.app/"}
+      />
+      <meta property="og:site_name" content={props?.site_name ?? "Reflect"} />
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="og:locale" content="en_US" />
       <meta property="og:type" content="website" />
       <meta name="twitter:card" content="summary" />
       <meta
         property="og:description"
-        content="A Quick and Easy Url Shortener build with next.js"
+        content={
+          props?.description ??
+          "A Quick and Easy Url Shortener build with next.js"
+        }
       />
       <meta
         property="og:image"
-        content="https://reflect.vercel.app/static/images/preview.jpg"
+        content={
+          props?.image ?? "https://reflect.vercel.app/static/images/preview.jpg"
+        }
       />
       <link
         rel="stylesheet"
