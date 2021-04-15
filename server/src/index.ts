@@ -12,6 +12,7 @@ import helmet from "helmet";
 import Moment from "moment";
 
 import * as fs from "fs";
+import http from "http";
 import cors from "cors";
 import path from "path";
 
@@ -26,9 +27,11 @@ async function main() {
   app.use(helmet());
   app.use(cors());
 
-  app.listen(port, () => {
-    console.log(`🚀 Server ready at http://localhost:${port}`);
-  });
+  http
+  .createServer(app)
+  .listen(port, () =>
+    console.log("🚀 Server ready at", `http://localhost:${port}`)
+  );
 }
 
 const connect = async () => {
