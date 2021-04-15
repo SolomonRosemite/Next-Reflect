@@ -1,29 +1,12 @@
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import styles from "../styles/Home.module.scss";
-import Button from "@material-ui/core/Button";
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
-import { Theme } from "@material-ui/core/styles";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import { makeStyles, Snackbar, TextField } from "@material-ui/core";
+import styles from "../styles/Home.module.scss";
+import { Button, Form } from "react-bootstrap";
 import React from "react";
 
 type Props = {};
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    width: "100%",
-    "& > * + *": {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
-
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
 const Home = ({}: Props) => {
-  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -54,27 +37,32 @@ const Home = ({}: Props) => {
             long website urls
           </p>
         </section>
-        <section>
+        <section className={styles.inputs}>
           <div>
-            <TextField placeholder="Slogan - Github" />
+            {/* <TextField color="primary" placeholder="Slogan - Github" /> */}
           </div>
           <div>
-            <TextField placeholder="Original Url - https://github.com/YourUsername" />
+            {/* <TextField placeholder="Original Url - https://github.com/YourUsername" /> */}
           </div>
 
           <div>
-            <TextField placeholder="Final Url here" />
+            <Form.Control
+              type="text"
+              placeholder="Readonly input here..."
+              readOnly
+            />
+            {/* <TextField placeholder="Final Url here" /> */}
           </div>
 
           <div className={styles.submitButtons}>
-            <Button variant="outlined" color="primary" onClick={handleClick}>
+            <Button color="primary" onClick={handleClick}>
               Save
             </Button>
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
               <Alert onClose={handleClose} severity="success">
                 This is a success message!
               </Alert>
-            </Snackbar>
+            </Snackbar> */}
           </div>
         </section>
       </section>
