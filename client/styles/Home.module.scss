@@ -17,7 +17,16 @@
 }
 
 .inputs {
-  // color: red;
+  width: 80vw;
+
+  .input {
+    margin: 2rem 0;
+  }
+}
+
+.submitButton {
+  text-align: center;
+  margin-top: -1rem;
 }
 
 .subTitle {

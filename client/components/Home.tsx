@@ -1,25 +1,60 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import React, { ChangeEventHandler, useState } from "react";
 import styles from "../styles/Home.module.scss";
 import { Button, Form } from "react-bootstrap";
-import React from "react";
+
+import fetch from "node-fetch";
+
+const apiUrl = "https://api.rosemite.cf:7001/url";
 
 type Props = {};
 
 const Home = ({}: Props) => {
-  const [open, setOpen] = React.useState(false);
+  const [successful, setSuccessful] = useState(false);
+  const [redirectUrl, setRedirectUrl] = useState(
+    "https://github.com/SolomonRosemite/Next-Reflect"
+  );
+  const [slogan, setSlogan] = useState("reflect");
 
-  const handleClick = () => {
-    setOpen(true);
-  };
+  async function handleApplyClick() {
+    console.log(redirectUrl);
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === "clickaway") {
+    if (!isValidURL(redirectUrl)) {
+      // Todo: Handle
       return;
     }
 
-    setOpen(false);
-  };
+    const requestUrl = `${apiUrl}?slogan=${slogan}&originalUrl=${redirectUrl}`;
+    console.log(requestUrl);
+
+    const result = await fetch(requestUrl, { method: "POST" });
+
+    // Conflict
+    if (result.status == 409) {
+      // Todo: Handle
+      return;
+    }
+
+    if (result.status == 200) {
+      setSuccessful(true);
+      return;
+    }
+
+    // Todo: Handle unexpected
+    console.log(result);
+    console.log(result.status);
+  }
+
+  function isValidURL(url: string) {
+    try {
+      new URL(url);
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+    return true;
+  }
 
   return (
     <main className={styles.main}>
@@ -38,26 +73,59 @@ const Home = ({}: Props) => {
           </p>
         </section>
         <section className={styles.inputs}>
-          <div>
-            {/* <TextField color="primary" placeholder="Slogan - Github" /> */}
-          </div>
-          <div>
-            {/* <TextField placeholder="Original Url - https://github.com/YourUsername" /> */}
-          </div>
-
-          <div>
+          <div className={styles.input}>
             <Form.Control
               type="text"
-              placeholder="Readonly input here..."
-              readOnly
+              style={{ width: "100%" }}
+              placeholder={slogan}
+              onChange={(event) => {
+                setSuccessful(false);
+                setSlogan(event.target.value);
+              }}
             />
-            {/* <TextField placeholder="Final Url here" /> */}
+          </div>
+          <div className={styles.input}>
+            <Form.Control
+              type="text"
+              style={{ width: "100%" }}
+              placeholder={
+                redirectUrl ?? "https://github.com/SolomonRosemite/Next-Reflect"
+              }
+              onChange={(event) => {
+                setSuccessful(false);
+                setRedirectUrl(event.target.value);
+              }}
+            />
           </div>
 
-          <div className={styles.submitButtons}>
-            <Button color="primary" onClick={handleClick}>
-              Save
+          <div className={styles.input}>
+            <Form.Control
+              type="text"
+              style={{ width: "100%" }}
+              value={"https://reflect.vercel.app/" + slogan}
+              readOnly
+            />
+          </div>
+
+          <div className={styles.submitButton}>
+            <Button onClick={handleApplyClick} variant="success">
+              Apply
             </Button>
+            {successful ? (
+              <Button
+                style={{ marginLeft: "4em" }}
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    "https://reflect.vercel.app/" + slogan
+                  );
+                }}
+                variant="primary"
+              >
+                Copy to Clipboard
+              </Button>
+            ) : (
+              <></>
+            )}
             {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
               <Alert onClose={handleClose} severity="success">
                 This is a success message!
