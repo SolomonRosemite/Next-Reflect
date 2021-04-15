@@ -23,9 +23,10 @@ async function main() {
   // Setup Server
   const app = express();
 
-  app.use(urlRoute);
   app.use(helmet());
   app.use(cors());
+  
+  app.use(urlRoute);
 
   http
   .createServer(app)
