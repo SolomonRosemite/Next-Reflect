@@ -1,30 +1,49 @@
 @use '../public/static/scss/fonts.scss' as fonts;
 @use '../public/static/scss/colors.scss' as colors;
 
-.title {
-  font-family: fonts.$font;
-  color: white;
-}
-
 .note {
-  font-family: fonts.$font;
-  color: white;
   font-size: 2em;
 }
 
 .container {
   min-height: 100vh;
   padding: 0 0.5rem;
+  max-width: 100vh;
+  flex: 2;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+.inputs {
+  width: 80vw;
+
+  .input {
+    margin: 2rem 0;
+  }
+}
+
+.submitButton {
+  text-align: center;
+  margin-top: -1rem;
+}
+
+.subTitle {
+  text-align: center;
+}
+
+.subParagraph {
+  text-align: center;
+}
+
 .main {
   background-color: colors.$background-color;
+  font-family: fonts.$font;
+  color: white;
   padding: 5rem 0;
   flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
