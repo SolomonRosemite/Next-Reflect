@@ -2,40 +2,56 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import React, { ChangeEventHandler, useState } from "react";
 import styles from "../styles/Home.module.scss";
-import { Button, Form } from "react-bootstrap";
-
-import Image from "next/image";
+import { Button, Form, Modal } from "react-bootstrap";
 
 import fetch from "node-fetch";
+import QRCode from "qrcode";
 
 const apiUrl = "https://api.rosemite.cf:7001/url";
+const repoUrl = "https://github.com/SolomonRosemite/Next-Reflect";
+const hostname = "reflect.vercel.app";
+const defaultRedirectUrl = repoUrl;
+const defaultSlogan = "reflect";
 
-type Props = {};
+interface IMessage {
+  message: string;
+  subTitle: string;
+  title?: string;
+}
 
-const Home = ({}: Props) => {
-  const repoUrl = "https://github.com/SolomonRosemite/Next-Reflect";
-  const hostname = "reflect.vercel.app";
-  const defaultRedirectUrl = repoUrl;
-  const defaultSlogan = "reflect";
+const Home = () => {
+  const [modalShow, setModalShow] = useState(false);
 
   const [successful, setSuccessful] = useState(false);
   const [redirectUrl, setRedirectUrl] = useState(defaultRedirectUrl);
   const [slogan, setSlogan] = useState(defaultSlogan);
+  const [qrCodeValue, setQrCodeValue] = useState("");
+
+  const [message, setMessage] = useState<IMessage>();
+
+  getQRCode(`https://${hostname}/${slogan}`).then((res) => {
+    setQrCodeValue(res);
+  });
 
   async function handleApplyClick() {
-    console.log(redirectUrl);
-
     if (!isValidURL(redirectUrl)) {
-      // Todo: Handle
+      setMessage({
+        subTitle: "Invalid Url",
+        message: "The Specified url is not valid. Please try again.",
+      });
+      setModalShow(true);
       return;
     }
 
     const requestUrl = `${apiUrl}?slogan=${slogan}&originalUrl=${redirectUrl}`;
-    console.log(requestUrl);
 
     // If url redirects back or to it self.
     if (requestUrl.includes(hostname)) {
-      // Todo: Handle
+      setMessage({
+        subTitle: "Invalid Url",
+        message: "The used redirect url can't be used. Please try again.",
+      });
+      setModalShow(true);
       return;
     }
 
@@ -43,7 +59,11 @@ const Home = ({}: Props) => {
 
     // (Conflict) If slogan is already in use.
     if (result.status == 409) {
-      // Todo: Handle
+      setMessage({
+        subTitle: "Slogan taken",
+        message: "Sorry this slogan is already in use. Please try again.",
+      });
+      setModalShow(true);
       return;
     }
 
@@ -52,9 +72,11 @@ const Home = ({}: Props) => {
       return;
     }
 
-    // Todo: Handle unexpected
-    console.log(result);
-    console.log(result.status);
+    setMessage({
+      subTitle: "Unexpected Error",
+      message: "Something went very wrong here... Please try again.",
+    });
+    setModalShow(true);
   }
 
   function isValidURL(url: string) {
@@ -67,11 +89,32 @@ const Home = ({}: Props) => {
     return true;
   }
 
-  function openSourceCodeClick() {
-    if (window && window.open != null) {
-      // window.location.
-      // window.open(a"repoUrl", "_blank").focus();
-    }
+  async function getQRCode(url: string) {
+    return await QRCode.toDataURL(url);
+  }
+
+  function IssueModal(props: any) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            {message?.title ?? "Sorry, something went wrong..."}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h4>{message?.subTitle}</h4>
+          <p>{message?.message}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );
   }
 
   return (
@@ -82,13 +125,14 @@ const Home = ({}: Props) => {
             Welcome to <span style={{ color: "#0070f3" }}>Reflect!</span>
           </h1>
           <h3 className={styles.subTitle}>
-            Create easy a Url Shortener with Reflect
+            Easily create a shorten url with Reflect
           </h3>
           <hr color={"white"} />
           <div className={styles.center}>
             <p className={styles.subParagraph}>
-              This is a Url Shortener made with next.js that helps you shorten
-              long website urls.
+              This application allows to shorten long website urls. These
+              shorten urls can easily be accessed and even scan using the
+              QR-Code.
             </p>
           </div>
         </section>
@@ -107,7 +151,6 @@ const Home = ({}: Props) => {
               Choose a preferred slogan for your shorten link.
             </Form.Text>
           </Form.Group>
-
           <Form.Group>
             <Form.Label>Redirect Url</Form.Label>
             <Form.Control
@@ -129,22 +172,39 @@ const Home = ({}: Props) => {
               value={`https://${hostname}/${slogan}`}
               readOnly
             />
+            <Form.Text className="text-muted">
+              View to resulting url here and when you feel ready hit the create
+              button.
+            </Form.Text>
           </Form.Group>
           <section className={styles.center}>
             <Button onClick={handleApplyClick} variant="success">
-              Apply
+              Create
             </Button>
             {successful ? (
-              <Button
-                onClick={() => {
-                  navigator.clipboard.writeText(
-                    `https://${hostname}/${slogan}`
-                  );
-                }}
-                variant="primary"
-              >
-                Copy to Clipboard
-              </Button>
+              <>
+                <Button
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      `https://${hostname}/${slogan}`
+                    );
+                  }}
+                  variant="primary"
+                >
+                  Copy to Clipboard
+                </Button>
+                <Button
+                  onClick={() => {
+                    navigator.share({
+                      title: document.title,
+                      url: `https://${hostname}/${slogan}`,
+                    });
+                  }}
+                  variant="secondary"
+                >
+                  Share
+                </Button>
+              </>
             ) : (
               <></>
             )}
@@ -154,10 +214,8 @@ const Home = ({}: Props) => {
               <h3>QR Code</h3>
               <div>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Nesciunt blanditiis officia itaque sequi natus aut impedit
-                  quae debitis illo deserunt nisi voluptates consequatur qui,
-                  rerum autem assumenda eligendi iure voluptatem.
+                  Feel free to scan and share the QR-Code shown on the right, to
+                  also access to the shortened url.
                 </p>
 
                 <a href={repoUrl} target="_blank">
@@ -173,17 +231,14 @@ const Home = ({}: Props) => {
             </div>
             <div className={styles.qrCodeDiv}>
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/QR_deWP.svg/1200px-QR_deWP.svg.png"
+                // src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/QR_deWP.svg/1200px-QR_deWP.svg.png"
+                src={qrCodeValue}
                 alt="qr code"
               />
             </div>
           </section>
         </Form>
-        {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-              <Alert onClose={handleClose} severity="success">
-                This is a success message!
-              </Alert>
-            </Snackbar> */}
+        <IssueModal show={modalShow} onHide={() => setModalShow(false)} />
       </section>
     </main>
   );

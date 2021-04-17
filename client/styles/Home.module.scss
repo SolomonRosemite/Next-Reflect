@@ -11,9 +11,7 @@
 }
 
 .container {
-  min-height: 100vh;
-  padding: 0 0.5rem;
-  max-width: 100vh;
+  margin-top: 1.8em;
   flex: 2;
   display: flex;
   flex-direction: column;
@@ -35,7 +33,7 @@
 .subParagraph {
   flex: 1;
   text-align: center;
-  max-width: 85vw;
+  max-width: 500px;
 }
 
 .qrCodeSection {
@@ -83,10 +81,8 @@
 
 .main {
   background-color: colors.$primary;
-  font-family: fonts.$font;
+  min-height: 100vh;
   color: white;
-  // padding: 5rem 0;
-  padding-top: 3.5em;
   flex: 1;
   width: 100%;
   display: flex;
@@ -100,4 +96,16 @@
   text-align: center;
   line-height: 1.15;
   font-size: 4rem;
+}
+
+@media only screen and (max-width: 850px) {
+  .form {
+    width: 70vw;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .form {
+    width: 90vw;
+  }
 }

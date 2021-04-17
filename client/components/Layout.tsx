@@ -1,3 +1,5 @@
+import styles from "../styles/Index.module.scss";
+
 import React, { ReactNode } from "react";
 import Link from "next/link";
 import Head from "next/head";
@@ -106,7 +108,8 @@ const Layout = ({ children, title, props }: Props) => {
           }
         `}</style>
       </div>
-      {children}
+      <div className={styles.body}>{children}</div>
+      {/* {children} */}
     </div>
   );
 };
