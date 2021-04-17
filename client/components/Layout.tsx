@@ -21,6 +21,8 @@ type MetaTag = React.DetailedHTMLProps<
 >;
 
 const Layout = ({ children, title, props }: Props) => {
+  let currentKey = 0;
+
   function getMetaTag(
     props: SSRProps | undefined,
     propertyValue: any | undefined,
@@ -28,12 +30,24 @@ const Layout = ({ children, title, props }: Props) => {
     fallbackValue: string
   ): MetaTag | undefined {
     if (!props) {
-      return <meta property={propertyName} content={fallbackValue} />;
+      return (
+        <meta
+          key={currentKey++}
+          property={propertyName}
+          content={fallbackValue}
+        />
+      );
     } else if (!propertyValue) {
       return undefined;
     }
 
-    return <meta property={propertyName} content={propertyValue} />;
+    return (
+      <meta
+        key={currentKey++}
+        property={propertyName}
+        content={propertyValue}
+      />
+    );
   }
 
   function getTags(

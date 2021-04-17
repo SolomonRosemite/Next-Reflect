@@ -11,11 +11,13 @@ const apiUrl = "https://api.rosemite.cf:7001/url";
 type Props = {};
 
 const Home = ({}: Props) => {
+  const hostname = "reflect.vercel.app";
+  const defaultRedirectUrl = "https://github.com/SolomonRosemite/Next-Reflect";
+  const defaultSlogan = "reflect";
+
   const [successful, setSuccessful] = useState(false);
-  const [redirectUrl, setRedirectUrl] = useState(
-    "https://github.com/SolomonRosemite/Next-Reflect"
-  );
-  const [slogan, setSlogan] = useState("reflect");
+  const [redirectUrl, setRedirectUrl] = useState(defaultRedirectUrl);
+  const [slogan, setSlogan] = useState(defaultSlogan);
 
   async function handleApplyClick() {
     console.log(redirectUrl);
@@ -28,9 +30,15 @@ const Home = ({}: Props) => {
     const requestUrl = `${apiUrl}?slogan=${slogan}&originalUrl=${redirectUrl}`;
     console.log(requestUrl);
 
+    // If url redirects back or to it self.
+    if (requestUrl.includes(hostname)) {
+      // Todo: Handle
+      return;
+    }
+
     const result = await fetch(requestUrl, { method: "POST" });
 
-    // Conflict
+    // (Conflict) If slogan is already in use.
     if (result.status == 409) {
       // Todo: Handle
       return;
@@ -66,7 +74,7 @@ const Home = ({}: Props) => {
           <h3 className={styles.subTitle}>
             Create easy a Url Shortener with Reflect
           </h3>
-          <hr />
+          <hr color={"white"} />
           <p className={styles.subParagraph}>
             This is a Url Shortener made with next.js that helps you shorten
             long website urls
@@ -102,7 +110,7 @@ const Home = ({}: Props) => {
             <Form.Control
               type="text"
               style={{ width: "100%" }}
-              value={"https://reflect.vercel.app/" + slogan}
+              value={`https://${hostname}/${slogan}`}
               readOnly
             />
           </div>
@@ -116,7 +124,7 @@ const Home = ({}: Props) => {
                 style={{ marginLeft: "4em" }}
                 onClick={() => {
                   navigator.clipboard.writeText(
-                    "https://reflect.vercel.app/" + slogan
+                    `https://${hostname}/${slogan}`
                   );
                 }}
                 variant="primary"
