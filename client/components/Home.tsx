@@ -233,7 +233,7 @@ const Home = () => {
               <img
                 // src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/QR_deWP.svg/1200px-QR_deWP.svg.png"
                 src={qrCodeValue}
-                alt="qr code"
+                style={{ color: "#232627" }}
               />
             </div>
           </section>
