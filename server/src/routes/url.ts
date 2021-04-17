@@ -11,6 +11,9 @@ urlRoute.get("/url", async (req, res) => {
   if (typeof slogan !== "string") {
     res.status(400).json({ message: "Params not specified" });
     return;
+  } else if (slogan.trim().length == 0) {
+    res.status(400).json({ message: "Slogan was empty" });
+    return;
   }
 
   const result = await Urls.findOne({ slogan: slogan.toLowerCase() });
@@ -34,6 +37,9 @@ urlRoute.post("/url", async (req, res) => {
 
   if (typeof slogan !== "string" || typeof originalUrl !== "string") {
     res.status(400).json({ message: "Params not specified" });
+    return;
+  } else if (slogan.trim().length == 0 || originalUrl.trim().length == 0) {
+    res.status(400).json({ message: "Slogan or Original Url was empty" });
     return;
   }
 

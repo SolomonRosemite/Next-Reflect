@@ -1,4 +1,7 @@
-body * {
+@use '../public/static/scss/colors.scss' as colors;
+
+.body {
   padding: 0;
   margin: 0;
+  background-color: colors.$primary;
 }

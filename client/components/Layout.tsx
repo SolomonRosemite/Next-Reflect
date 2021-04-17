@@ -1,3 +1,5 @@
+import styles from "../styles/Index.module.scss";
+
 import React, { ReactNode } from "react";
 import Link from "next/link";
 import Head from "next/head";
@@ -21,6 +23,8 @@ type MetaTag = React.DetailedHTMLProps<
 >;
 
 const Layout = ({ children, title, props }: Props) => {
+  let currentKey = 0;
+
   function getMetaTag(
     props: SSRProps | undefined,
     propertyValue: any | undefined,
@@ -28,12 +32,24 @@ const Layout = ({ children, title, props }: Props) => {
     fallbackValue: string
   ): MetaTag | undefined {
     if (!props) {
-      return <meta property={propertyName} content={fallbackValue} />;
+      return (
+        <meta
+          key={currentKey++}
+          property={propertyName}
+          content={fallbackValue}
+        />
+      );
     } else if (!propertyValue) {
       return undefined;
     }
 
-    return <meta property={propertyName} content={propertyValue} />;
+    return (
+      <meta
+        key={currentKey++}
+        property={propertyName}
+        content={propertyValue}
+      />
+    );
   }
 
   function getTags(
@@ -78,6 +94,7 @@ const Layout = ({ children, title, props }: Props) => {
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
+        {/* <link rel="shortcut icon" href="/static/favicon.ico" /> */}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
@@ -91,7 +108,8 @@ const Layout = ({ children, title, props }: Props) => {
           }
         `}</style>
       </div>
-      {children}
+      <div className={styles.body}>{children}</div>
+      {/* {children} */}
     </div>
   );
 };
