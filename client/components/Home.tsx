@@ -20,6 +20,12 @@ interface IMessage {
 }
 
 const Home = () => {
+  const inputStyle: React.CSSProperties = {
+    borderColor: "#121212",
+    backgroundColor: "#121212",
+    color: "gray",
+  };
+
   const [modalShow, setModalShow] = useState(false);
 
   const [successful, setSuccessful] = useState(false);
@@ -127,7 +133,7 @@ const Home = () => {
           <h3 className={styles.subTitle}>
             Easily create a shorten url with Reflect
           </h3>
-          <hr color={"white"} />
+          <hr color="#272a2c" />
           <div className={styles.center}>
             <p className={styles.subParagraph}>
               This application allows to shorten long website urls. These
@@ -140,6 +146,7 @@ const Home = () => {
           <Form.Group>
             <Form.Label>Slogan</Form.Label>
             <Form.Control
+              style={inputStyle}
               onChange={(event) => {
                 setSuccessful(false);
                 setSlogan(event.target.value);
@@ -154,6 +161,7 @@ const Home = () => {
           <Form.Group>
             <Form.Label>Redirect Url</Form.Label>
             <Form.Control
+              style={inputStyle}
               type="text"
               onChange={(event) => {
                 setSuccessful(false);
@@ -168,6 +176,11 @@ const Home = () => {
           <Form.Group>
             <Form.Label>Result</Form.Label>
             <Form.Control
+              style={{
+                ...inputStyle,
+                backgroundColor: "#272a2c",
+                borderColor: "#272a2c",
+              }}
               type="text"
               value={`https://${hostname}/${slogan}`}
               readOnly
