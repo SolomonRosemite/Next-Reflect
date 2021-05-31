@@ -16,7 +16,7 @@ const Index = ({ title, props }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await fetch(
-    "https://api.rosemite.cf:7001/url?slogan=" + context.query.id
+    "https://refelct.cf/v1/url?slogan=" + context.query.id
   );
 
   if (res.status != 200) {

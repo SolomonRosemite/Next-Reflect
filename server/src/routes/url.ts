@@ -6,7 +6,26 @@ const urlRoute = express.Router();
 urlRoute.get("/url", async (req, res) => {
   const { slogan } = req.query;
 
-  console.log(slogan);
+  if (typeof slogan !== "string") {
+    res.status(400).json({ message: "Params not specified" });
+    return;
+  } else if (slogan.trim().length == 0) {
+    res.status(400).json({ message: "Slogan was empty" });
+    return;
+  }
+
+  const result = await Urls.findOne({ slogan: slogan.toLowerCase() });
+
+  if (!result) {
+    res.status(404).json({ message: "Slogan not found" });
+    return;
+  }
+
+  res.redirect(result.originalUrl);
+});
+
+urlRoute.get("v1/url", async (req, res) => {
+  const { slogan } = req.query;
 
   if (typeof slogan !== "string") {
     res.status(400).json({ message: "Params not specified" });
