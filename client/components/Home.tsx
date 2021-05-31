@@ -52,14 +52,19 @@ const Home = () => {
     const requestUrl = `${apiUrl}?slogan=${slogan}&originalUrl=${redirectUrl}`;
 
     // If url redirects back or to it self.
-    if (requestUrl.includes(hostname)) {
-      setMessage({
-        subTitle: "Invalid Url",
-        message: "The used redirect url can't be used. Please try again.",
-      });
-      setModalShow(true);
-      return;
-    }
+    // Note: There are ways to bypass this easily. Thus this can be removed for now
+
+    // console.log(requestUrl);
+    // console.log(hostname);
+
+    // if (requestUrl.includes(hostname)) {
+    //   setMessage({
+    //     subTitle: "Invalid Url",
+    //     message: "The used redirect url can't be used. Please try again.",
+    //   });
+    //   setModalShow(true);
+    //   return;
+    // }
 
     const result = await fetch(requestUrl, { method: "POST" });
 
