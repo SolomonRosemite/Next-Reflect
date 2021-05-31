@@ -7,7 +7,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 import fetch from "node-fetch";
 import QRCode from "qrcode";
 
-const apiUrl = "https://api.rosemite.cf:7001/url";
+const apiUrl = "https://reflect.cf/url";
 const repoUrl = "https://github.com/SolomonRosemite/Next-Reflect";
 const hostname = "reflect.cf";
 const defaultRedirectUrl = repoUrl;
