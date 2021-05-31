@@ -16,7 +16,7 @@ const Index = ({ title, props }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await fetch(
-    "https://refelct.cf/v1/url?slogan=" + context.query.id
+    "https://reflect.cf/v1/url?slogan=" + context.query.id
   );
 
   if (res.status != 200) {

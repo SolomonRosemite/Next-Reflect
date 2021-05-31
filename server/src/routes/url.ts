@@ -24,7 +24,7 @@ urlRoute.get("/url", async (req, res) => {
   res.redirect(result.originalUrl);
 });
 
-urlRoute.get("v1/url", async (req, res) => {
+urlRoute.get("/v1/url", async (req, res) => {
   const { slogan } = req.query;
 
   if (typeof slogan !== "string") {
