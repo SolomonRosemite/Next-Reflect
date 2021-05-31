@@ -9,7 +9,7 @@ import QRCode from "qrcode";
 
 const apiUrl = "https://api.rosemite.cf:7001/url";
 const repoUrl = "https://github.com/SolomonRosemite/Next-Reflect";
-const hostname = "reflect.vercel.app";
+const hostname = "reflect.cf";
 const defaultRedirectUrl = repoUrl;
 const defaultSlogan = "reflect";
 

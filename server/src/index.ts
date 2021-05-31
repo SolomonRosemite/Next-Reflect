@@ -15,6 +15,7 @@ import * as fs from "fs";
 import http from "http";
 import cors from "cors";
 import path from "path";
+import { wildcardRoute } from "./routes/wildcard";
 
 async function main() {
   // Connect to Database
@@ -25,14 +26,15 @@ async function main() {
 
   app.use(helmet());
   app.use(cors());
-  
+
   app.use(urlRoute);
+  app.use(wildcardRoute);
 
   http
-  .createServer(app)
-  .listen(port, () =>
-    console.log("🚀 Server ready at", `http://localhost:${port}`)
-  );
+    .createServer(app)
+    .listen(port, () =>
+      console.log("🚀 Server ready at", `http://localhost:${port}`)
+    );
 }
 
 const connect = async () => {

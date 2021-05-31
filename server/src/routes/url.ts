@@ -3,27 +3,6 @@ import { Urls } from "../entity/Urls";
 import express from "express";
 const urlRoute = express.Router();
 
-urlRoute.get("/url", async (req, res) => {
-  const { slogan } = req.query;
-
-  if (typeof slogan !== "string") {
-    res.status(400).json({ message: "Params not specified" });
-    return;
-  } else if (slogan.trim().length == 0) {
-    res.status(400).json({ message: "Slogan was empty" });
-    return;
-  }
-
-  const result = await Urls.findOne({ slogan: slogan.toLowerCase() });
-
-  if (!result) {
-    res.status(404).json({ message: "Slogan not found" });
-    return;
-  }
-
-  res.redirect(result.originalUrl);
-});
-
 urlRoute.get("/v1/url", async (req, res) => {
   const { slogan } = req.query;
 
@@ -59,6 +38,9 @@ urlRoute.post("/url", async (req, res) => {
     return;
   } else if (slogan.trim().length == 0 || originalUrl.trim().length == 0) {
     res.status(400).json({ message: "Slogan or Original Url was empty" });
+    return;
+  } else if (slogan.trim().toLowerCase().startsWith("/v1/url")) {
+    res.status(400).json({ message: "Slogan can not start with /v1/url" });
     return;
   }
 
