@@ -16,7 +16,7 @@ const Index = ({ title, props }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await fetch(
-    "https://reflect.cf/v1/url?slogan=" + context.query.id
+    "https://reflect.rosemite.dev/v1/url?slogan=" + context.query.id
   );
 
   if (res.status != 200) {
